@@ -1,0 +1,24 @@
+{
+	"name": "CustomersCombined",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Storage_Blob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "customerCombined.csv",
+				"folderPath": "customer",
+				"container": "consolidated-adf-assessment"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}

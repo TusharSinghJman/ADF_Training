@@ -20,13 +20,21 @@
 					"name": "orders"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Customers_Orders_Merged",
+						"type": "DatasetReference"
+					},
+					"name": "mergedData"
+				}
+			],
 			"transformations": [
 				{
-					"name": "join1"
+					"name": "join"
 				},
 				{
-					"name": "alterRow1",
+					"name": "updateEmails",
 					"description": "select columns with missing emails\n"
 				},
 				{
@@ -34,8 +42,12 @@
 					"description": "update emails\n"
 				},
 				{
-					"name": "aggregate1",
+					"name": "groupByOrders",
 					"description": "remove duplicated rows based on customer ID and order ID"
+				},
+				{
+					"name": "derivedPrice",
+					"description": "compute the price from the per unit cost and quantity"
 				}
 			],
 			"scriptLines": [
@@ -70,12 +82,29 @@
 				"     joinType:'inner',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"join1 alterRow(updateIf(isNull(Email))) ~> alterRow1",
-				"alterRow1 derive(Email = concat(lower(FirstName), '.', lower(LastName), '@example.com')) ~> derivedEmail",
+				"     broadcast: 'auto')~> join",
+				"join alterRow(updateIf(isNull(Email))) ~> updateEmails",
+				"updateEmails derive(Email = concat(lower(FirstName), '.', lower(LastName), '@example.com')) ~> derivedEmail",
 				"derivedEmail aggregate(groupBy(OrderID,",
 				"          customers@CustomerID),",
-				"     each(match(!in(['CustomerID','OrderID'],name)), $$ = first($$))) ~> aggregate1"
+				"     each(match(!in(['CustomerID','OrderID'],name)), $$ = first($$))) ~> groupByOrders",
+				"groupByOrders derive(TotalPrice = Quantity * Price) ~> derivedPrice",
+				"derivedPrice sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          CustomerID as string,",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          Email as string,",
+				"          PhoneNumber as string,",
+				"          Address as string,",
+				"          City as string,",
+				"          State as string,",
+				"          ZipCode as string,",
+				"          Country as string",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> mergedData"
 			]
 		}
 	}

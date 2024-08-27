@@ -121,7 +121,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ordersCombined",
+						"referenceName": "OrdersCombined",
 						"type": "DatasetReference"
 					}
 				]

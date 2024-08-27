@@ -1,5 +1,5 @@
 {
-	"name": "ordersCombined",
+	"name": "OrdersCombined",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "LS_Storage_Blob",

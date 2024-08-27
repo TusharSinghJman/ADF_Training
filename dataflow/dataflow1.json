@@ -1,0 +1,81 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "CustomersCombined",
+						"type": "DatasetReference"
+					},
+					"name": "customers"
+				},
+				{
+					"dataset": {
+						"referenceName": "OrdersCombined",
+						"type": "DatasetReference"
+					},
+					"name": "orders"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "alterRow1",
+					"description": "select columns with missing emails\n"
+				},
+				{
+					"name": "derivedEmail",
+					"description": "update emails\n"
+				},
+				{
+					"name": "aggregate1",
+					"description": "remove duplicated rows based on customer ID and order ID"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          CustomerID as string,",
+				"          FirstName as string,",
+				"          LastName as string,",
+				"          Email as string,",
+				"          PhoneNumber as string,",
+				"          Address as string,",
+				"          City as string,",
+				"          State as string,",
+				"          ZipCode as string,",
+				"          Country as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> customers",
+				"source(output(",
+				"          OrderID as short,",
+				"          ProductID as string,",
+				"          ProductName as string,",
+				"          Quantity as short,",
+				"          OrderTimestamp as string,",
+				"          Price as double,",
+				"          CustomerID as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> orders",
+				"customers, orders join(customers@CustomerID == orders@CustomerID,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 alterRow(updateIf(isNull(Email))) ~> alterRow1",
+				"alterRow1 derive(Email = concat(lower(FirstName), '.', lower(LastName), '@example.com')) ~> derivedEmail",
+				"derivedEmail aggregate(groupBy(OrderID,",
+				"          customers@CustomerID),",
+				"     each(match(!in(['CustomerID','OrderID'], name)), $$ = first($$))) ~> aggregate1"
+			]
+		}
+	}
+}

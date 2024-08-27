@@ -59,6 +59,76 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/OrdersCombined')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_Storage_Blob",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "orderCombined.xlsx",
+						"folderPath": "order",
+						"container": "consolidated-adf-assessment"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "CustomerID",
+						"type": "String"
+					},
+					{
+						"name": "FirstName",
+						"type": "String"
+					},
+					{
+						"name": "LastName",
+						"type": "String"
+					},
+					{
+						"name": "Email",
+						"type": "String"
+					},
+					{
+						"name": "PhoneNumber",
+						"type": "String"
+					},
+					{
+						"name": "Address",
+						"type": "String"
+					},
+					{
+						"name": "City",
+						"type": "String"
+					},
+					{
+						"name": "State",
+						"type": "String"
+					},
+					{
+						"name": "ZipCode",
+						"type": "String"
+					},
+					{
+						"name": "Country",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_Storage_Blob')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/customer24')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -174,76 +244,6 @@
 					},
 					{
 						"name": "CustomerID",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/LS_Storage_Blob')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ordersCombined')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "LS_Storage_Blob",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"fileName": "orderCombined.xlsx",
-						"folderPath": "order",
-						"container": "consolidated-adf-assessment"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "CustomerID",
-						"type": "String"
-					},
-					{
-						"name": "FirstName",
-						"type": "String"
-					},
-					{
-						"name": "LastName",
-						"type": "String"
-					},
-					{
-						"name": "Email",
-						"type": "String"
-					},
-					{
-						"name": "PhoneNumber",
-						"type": "String"
-					},
-					{
-						"name": "Address",
-						"type": "String"
-					},
-					{
-						"name": "City",
-						"type": "String"
-					},
-					{
-						"name": "State",
-						"type": "String"
-					},
-					{
-						"name": "ZipCode",
-						"type": "String"
-					},
-					{
-						"name": "Country",
 						"type": "String"
 					}
 				]
@@ -380,7 +380,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "ordersCombined",
+								"referenceName": "OrdersCombined",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -396,7 +396,7 @@
 				"[concat(variables('factoryId'), '/datasets/customer24')]",
 				"[concat(variables('factoryId'), '/datasets/CustomersCombined')]",
 				"[concat(variables('factoryId'), '/datasets/order24')]",
-				"[concat(variables('factoryId'), '/datasets/ordersCombined')]"
+				"[concat(variables('factoryId'), '/datasets/OrdersCombined')]"
 			]
 		}
 	]

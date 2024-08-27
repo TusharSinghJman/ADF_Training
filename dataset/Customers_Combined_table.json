@@ -1,0 +1,12 @@
+{
+	"name": "Customers_Combined_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_DB_AdfTraining",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": []
+	}
+}

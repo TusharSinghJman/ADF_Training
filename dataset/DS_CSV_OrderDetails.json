@@ -1,0 +1,53 @@
+{
+	"name": "DS_CSV_OrderDetails",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Storage_Blob",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "240826_orderdetails.csv",
+				"container": "container-tushar"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "OrderID",
+				"type": "String"
+			},
+			{
+				"name": "ProductID",
+				"type": "String"
+			},
+			{
+				"name": "ProductName",
+				"type": "String"
+			},
+			{
+				"name": "Quantity",
+				"type": "String"
+			},
+			{
+				"name": "OrderTimestamp",
+				"type": "String"
+			},
+			{
+				"name": "Price",
+				"type": "String"
+			},
+			{
+				"name": "CustomerID",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

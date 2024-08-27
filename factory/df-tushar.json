@@ -1,0 +1,9 @@
+{
+	"name": "df-tushar",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3acc48c7-3082-4d0d-9b9a-0021070854b0",
+		"tenantId": "2800c0a0-70e9-49be-8733-faeaa6aced99"
+	}
+}

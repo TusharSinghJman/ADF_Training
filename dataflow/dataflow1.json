@@ -1,6 +1,7 @@
 {
 	"name": "dataflow1",
 	"properties": {
+		"description": "Cleaning and transformations",
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
@@ -74,7 +75,7 @@
 				"alterRow1 derive(Email = concat(lower(FirstName), '.', lower(LastName), '@example.com')) ~> derivedEmail",
 				"derivedEmail aggregate(groupBy(OrderID,",
 				"          customers@CustomerID),",
-				"     each(match(!in(['CustomerID','OrderID'], name)), $$ = first($$))) ~> aggregate1"
+				"     each(match(!in(['CustomerID','OrderID'],name)), $$ = first($$))) ~> aggregate1"
 			]
 		}
 	}

@@ -1,0 +1,16 @@
+{
+	"name": "customers_orders",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_DB_AdfTraining",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "customers_orders_merged"
+		}
+	}
+}

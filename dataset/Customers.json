@@ -1,0 +1,16 @@
+{
+	"name": "Customers",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_DB_AdfTraining",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "customers"
+		}
+	}
+}
